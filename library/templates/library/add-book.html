@@ -1,0 +1,18 @@
+{% extends 'index.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<form action="" enctype="multipart/form-data" method="post">
+    <h2>Add Book</h2>
+    {% csrf_token %}
+    <div style="width: 400px;">
+        {{form|crispy}} 
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}

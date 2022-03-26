@@ -1,0 +1,42 @@
+{% extends 'index.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<form action="" enctype="multipart/form-data" method="post">
+    <h2>Add Book</h2>
+    {% csrf_token %}
+    <div style="width: 400px;">
+        <label for="id_title" class=" requiredField">
+            Title<span class="asteriskField">*</span> </label>
+        <div> <input type="text" name="title" value="Java" maxlength="100" class="textinput textInput form-control" required="" id="id_title"> </div>
+       
+        <label class="">
+            Authors
+        </label>
+        <div> <div class="form-check"> <input type="checkbox" class="form-check-input" name="authors" value="2" id="id_authors_0" checked=""> <label class="form-check-label" for="id_authors_0">
+            john snow
+        </label> </div> <div class="form-check"> <input type="checkbox" class="form-check-input" name="authors" value="3" id="id_authors_1"> <label class="form-check-label" for="id_authors_1">
+            tiger woods
+        </label> </div> <div class="form-check"> <input type="checkbox" class="form-check-input" name="authors" value="4" id="id_authors_2"> <label class="form-check-label" for="id_authors_2"> </label> </div> </div>
+        <label for="id_publisher" class="">
+            Publisher
+        </label>
+        <select name="publisher" class="select form-control" id="id_publisher"> <option value="">---------</option> <option value="1" selected="">Caesar</option>
+
+        </select>
+
+
+        <label for="id_publisher_date" class=" requiredField">
+            Publisher date<span class="asteriskField">*</span> </label>
+        <input type="date" name="publisher_date" value="2022-01-02" class="dateinput form-control" required="" id="id_publisher_date">
+    
+    
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}

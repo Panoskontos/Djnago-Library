@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+
+
+<h1>Example</h1>
+
+{{ form|crispy }}
+
+<h2>Library User</h2>
+{{lib_user_form|crispy}}
+<h2>Publisher</h2>
+<br>
+{{publisher_form|crispy}}
+
+ <h2>Author</h2>
+{{author_form|crispy}} 
+
+{% endblock %}

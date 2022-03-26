@@ -1,0 +1,45 @@
+{% extends 'index.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<table class="table  table-hover">
+<thead class="thead-light">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Author</th>
+        <th scope="col">Publisher</th>
+        <th scope="col">publication date</th>
+        <th scope="col">Stars</th>
+    </tr>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td scope="row">{{book.id}}</td>
+            <td scope="row">{{book.title}}</td>
+            <td scope="row">
+                {% for author in authors %}
+                    {{author}},
+                {% endfor %}
+            </td>
+            <td scope="row">{{book.publisher}}</td>
+            <td scope="row">{{book.publisher_date}}</td>
+            <td scope="row">{{book.stars}}</td>
+            <td scope="row">
+                <a href="{% url 'edit_book' book.id %}">
+                    Edit
+                </a>
+            </td>
+            <td scope="row">
+                <a href="{% url 'delete_book' book.id %}">
+                    Delete
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</thead>
+</table>
+{% endblock %}
