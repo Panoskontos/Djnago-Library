@@ -4,6 +4,10 @@ from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 # Create your views here.
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
+
+
 
 @login_required(login_url='login')
 def home(request):
@@ -86,8 +90,12 @@ def loginview(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request,user)
+                user_t = user_type(request.user)
+                print(user_t)
+                if (user_t == 'author' or user_t == 'publisher'):
+                    return redirect('home')
                 
-                return redirect('home')
+                
             else:
                 return redirect('login')
         else:
@@ -120,6 +128,15 @@ def signout(request):
     context = {}
     return render(request, 'library/logout.html', context)
 
+# user type function
+def user_type(username):
+    user = User.objects.get(username=username)
+    if Author.objects.filter(user=user).exists():
+        return('author')
+    elif Publisher.objects.filter(user=user).exists():
+        return('publisher')
+    else:
+        return('user')
 
 @login_required(login_url='login')
 def mybooks(request):
@@ -159,3 +176,52 @@ def delete_book(request, pk):
         'book': book,
     }
     return render(request, 'library/delete-book.html', context)
+
+
+def get_authors_attributes(user, author):
+    context = {
+        'username': user.username,
+        'user_type': user_type(user),
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'email': author.email,
+        'age': author.age
+    }
+    return context
+
+
+@ login_required(login_url='login')
+def profile(request):
+    user = request.user
+    user_t = user_type(user)
+    print(user_t)
+    if (user_t == 'author'):
+        author = Author.objects.get(user=user)
+        context = get_authors_attributes(user, author)
+    # elif (user_t == 'publisher'):
+    #     publisher = Publisher.objects.get(user=user)
+    #     context = get_publishers_attributes(user, publisher)
+    # else:
+    #     context = get_users_attributes(user)
+    else:
+        context = {}
+    return render(request, 'library/profile.html', context)
+
+
+@ login_required(login_url='login')
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+
+            user = authenticate(request, username=request.user.username,
+                                password=form.cleaned_data.get('new_password2'))
+
+            login(request, user)
+            message = 'You have successfully changed your password'
+            return redirect('success', message=message)
+    else:
+        form = PasswordChangeForm(request.user)
+
+    return render(request, 'library/change_password.html', {'form': form})

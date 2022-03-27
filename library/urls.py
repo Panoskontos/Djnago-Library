@@ -12,6 +12,8 @@ urlpatterns = [
     path('mybooks', mybooks, name='mybooks'),
     path('mybooks/<str:pk>', edit_book, name='edit_book'),
     path('delete-book/<str:pk>', delete_book, name='delete_book'),
+    path('profile', profile, name='profile'),
+    path('change-password', change_password, name='change_password'),
 
 
 ]

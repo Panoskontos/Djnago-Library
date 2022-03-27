@@ -1,0 +1,52 @@
+{% extends 'index.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<h1>Profile</h1>
+
+<ul>
+    <li>
+        Username: {{ username }}
+    </li>
+    <li>
+        
+        First name: {{ first_name }}
+    </li>
+    <li>
+        Last name: {{ last_name }}
+
+    </li>
+    <li>
+
+        Email: {{ email }}
+    </li>
+    <li>
+        Age: {{ age }}
+    </li>
+</ul>
+
+
+
+<span>
+    
+    Edit
+</span>
+
+<span>
+
+    Profile
+</span>
+
+<span>
+    <a href="{% url 'change_password' %}">
+        Change your password
+    </a>
+</span>
+
+
+
+
+{% endblock %}
